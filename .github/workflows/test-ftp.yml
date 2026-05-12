@@ -15,7 +15,12 @@ jobs:
 
       - name: Upload to FTP
         run: |
-          curl -T test.txt \
-          --ftp-create-dirs \
-          -u "gitftp@acewp.ir:J47iShIj0EpyuJ95" \
-          "ftp://server77s.irwebspace.com/public_html/github-test/test.txt"
+          curl -v \
+            --disable-epsv \
+            -P - \
+            --connect-timeout 30 \
+            --max-time 120 \
+            -T test.txt \
+            --ftp-create-dirs \
+            -u "gitftp@acewp.ir:J47iShIj0EpyuJ95" \
+            "ftp://server77s.irwebspace.com/public_html/github-test/test.txt"
