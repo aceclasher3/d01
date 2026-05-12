@@ -1,22 +1,16 @@
-name: FTP Debug
+name: FTP Minimal Test
 
 on:
   workflow_dispatch:
 
 jobs:
-  debug:
+  ftp-test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Install telnet
+      - name: FTP connect test
         run: |
-          sudo apt-get update
-          sudo apt-get install -y telnet netcat-openbsd
-
-      - name: Test FTP Port
-        run: |
-          nc -vz server77s.irwebspace.com 21
-
-      - name: Raw FTP Test
-        run: |
-          timeout 20 bash -c 'cat < /dev/null > /dev/tcp/server77s.irwebspace.com/21'
+          curl -v \
+            --ftp-pasv \
+            -u "gitftp@acewp.ir:J47iShIj0EpyuJ95" \
+            "ftp://server77s.irwebspace.com/"
