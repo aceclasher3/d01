@@ -1,22 +1,20 @@
-name: Test FTP Upload
+name: PHP Upload Test
 
 on:
   workflow_dispatch:
 
 jobs:
-  ftp-test:
+  upload:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
       - name: Create test file
         run: |
-          mkdir -p test_upload
-          echo "Hello from GitHub Actions!" > test_upload/test.txt
-          date >> test_upload/test.txt
+          echo "Hello from GitHub Actions 🚀" > test.txt
+          date >> test.txt
 
-      - name: Port test
+      - name: Upload to PHP server
         run: |
-          nc -vz server77s.irwebspace.com 21
+          curl -X POST \
+            -F "file=@test.txt" \
+            "https://acewp.ir/dev/uploader.php"
