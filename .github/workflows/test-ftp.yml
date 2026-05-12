@@ -13,8 +13,6 @@ jobs:
           echo "Hello from GitHub Actions 🚀" > test.txt
           date >> test.txt
 
-      - name: Upload to PHP server
+      - name: Simple HTTP test
         run: |
-          curl -X POST \
-            -F "file=@test.txt" \
-            "https://acewp.ir/dev/uploader.php"
+          curl -v https://acewp.ir/dev/uploader.php
