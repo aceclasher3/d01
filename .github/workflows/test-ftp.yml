@@ -1,4 +1,4 @@
-name: FTP Minimal Test
+name: Test FTP Upload
 
 on:
   workflow_dispatch:
@@ -8,9 +8,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: FTP connect test
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create test file
         run: |
-          curl -v \
-            --ftp-pasv \
-            -u "gitftp@acewp.ir:J47iShIj0EpyuJ95" \
-            "ftp://server77s.irwebspace.com/"
+          mkdir -p test_upload
+          echo "Hello from GitHub Actions!" > test_upload/test.txt
+          date >> test_upload/test.txt
+
+      - name: Port test
+        run: |
+          nc -vz server77s.irwebspace.com 21
