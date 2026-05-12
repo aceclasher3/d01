@@ -1,26 +1,22 @@
-name: Test FTP Upload
+name: FTP Debug
 
 on:
   workflow_dispatch:
 
 jobs:
-  ftp-test:
+  debug:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Create test file
+      - name: Install telnet
         run: |
-          echo "Hello from GitHub Actions!" > test.txt
-          date >> test.txt
+          sudo apt-get update
+          sudo apt-get install -y telnet netcat-openbsd
 
-      - name: Upload to FTP
+      - name: Test FTP Port
         run: |
-          curl -v \
-            --disable-epsv \
-            -P - \
-            --connect-timeout 30 \
-            --max-time 120 \
-            -T test.txt \
-            --ftp-create-dirs \
-            -u "gitftp@acewp.ir:J47iShIj0EpyuJ95" \
-            "ftp://server77s.irwebspace.com/public_html/github-test/test.txt"
+          nc -vz server77s.irwebspace.com 21
+
+      - name: Raw FTP Test
+        run: |
+          timeout 20 bash -c 'cat < /dev/null > /dev/tcp/server77s.irwebspace.com/21'
