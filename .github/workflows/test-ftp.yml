@@ -1,0 +1,25 @@
+name: Test FTP Upload
+
+on:
+  workflow_dispatch:
+
+jobs:
+  ftp-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create test file
+        run: |
+          mkdir -p test_upload
+          echo "Hello from GitHub Actions!" > test_upload/test.txt
+          date >> test_upload/test.txt
+
+      - name: Upload to FTP
+        run: |
+          curl -T test_upload/test.txt \
+          --ftp-create-dirs \
+          -u "${{ secrets.FTP_USER }}:${{ secrets.FTP_PASS }}" \
+          "ftp://${{ secrets.FTP_HOST }}/public_html/github-test/test.txt"
